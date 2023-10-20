@@ -15,6 +15,13 @@ async function moduleProject4() {
 
 	// 👉 Tasks 1 - 5 go here
 
+	// putting urls here
+	const baseURL = 'http://localhost:3003/api/weather?city=';
+	const sanFrancisco = `${baseURL}San+Francisco`;
+	const newYork = `${baseURL}New+York`;
+	const detroit = `${baseURL}Detroit`;
+	const honolulu = `${baseURL}Honolulu`;
+
 	// Task 1 Hide Container by default
 	const container = document.querySelector('#weatherWidget');
 
@@ -24,40 +31,60 @@ async function moduleProject4() {
 	const option = document.querySelector('#citySelect');
 
 	option.addEventListener('change', () => {
-    container.style.display = 'none';
-    toggleOption()
-    toggleInfoOn()
+		container.style.display = 'none';
+		toggleOption();
+		toggleInfoOn();
 		const optionSelected = option.options[option.selectedIndex];
 		const value = optionSelected.textContent;
-    toggleContainer();
-    toggleInfoOff()
-    toggleOption()
-		console.log(value);
+    if (value === 'New York') {
+      getInfo(newYork)
+    } else if (value === 'Detroit') {
+      getInfo(detroit);
+    } else if (value === 'Honolulu') {
+      getInfo(honolulu)
+    } else {
+      getInfo(sanFrancisco)
+    }
 	});
 
 	// TASK 3 - Prepare to fetch the weather data
 
-  // disable dropdown 
-  function toggleOption () {
-    option.toggleAttribute('disabled')
+	// disable dropdown
+	function toggleOption() {
+		option.toggleAttribute('disabled');
+	}
+
+	// toggle display
+	function toggleContainer() {
+		container.style.display = 'block';
+	}
+
+	// toggle fetching wheather data... message
+	const info = document.querySelector('.info');
+
+	function toggleInfoOn() {
+		info.textContent = 'Fetching weather data...';
+	}
+
+	function toggleInfoOff() {
+		info.textContent = '';
+	}
+
+	// TASK 4 - Launch a request to the weather API
+  function getInfo (city) {
+      axios.get(city)
+				.then((res) => {
+					let { location, current, forecast } = res.data;
+					console.log(location);
+          toggleContainer();
+					toggleInfoOff();
+					toggleOption();
+				})
+				.catch((err) => {
+					console.log(err);
+				});
   }
 
-  // toggle display
-  function toggleContainer() {
-    container.style.display.toggleAttribute('none')
-  }
-
-  // toggle fetching wheather data... message
-  const info = document.querySelector('.info')
-
-  function toggleInfoOn() {
-    info.textContent = 'Fetching weather data...'
-    
-  }
-
-  function toggleInfoOff() {
-    info.textContent = '';
-  }
 
 	// 👆 WORK WORK ABOVE THIS LINE 👆
 }
