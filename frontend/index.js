@@ -21,13 +21,43 @@ async function moduleProject4() {
 	container.style.display = 'none';
 
 	// Task 2 Add an event listener to the dropdown
-  const option = document.querySelector('#citySelect');
-  
-  option.addEventListener('change', () => {
-    const optionSelected = option.options[option.selectedIndex]
-    const value = optionSelected.textContent
-    console.log(value)
-  })
+	const option = document.querySelector('#citySelect');
+
+	option.addEventListener('change', () => {
+    container.style.display = 'none';
+    toggleOption()
+    toggleInfoOn()
+		const optionSelected = option.options[option.selectedIndex];
+		const value = optionSelected.textContent;
+    toggleContainer();
+    toggleInfoOff()
+    toggleOption()
+		console.log(value);
+	});
+
+	// TASK 3 - Prepare to fetch the weather data
+
+  // disable dropdown 
+  function toggleOption () {
+    option.toggleAttribute('disabled')
+  }
+
+  // toggle display
+  function toggleContainer() {
+    container.style.display.toggleAttribute('none')
+  }
+
+  // toggle fetching wheather data... message
+  const info = document.querySelector('.info')
+
+  function toggleInfoOn() {
+    info.textContent = 'Fetching weather data...'
+    
+  }
+
+  function toggleInfoOff() {
+    info.textContent = '';
+  }
 
 	// 👆 WORK WORK ABOVE THIS LINE 👆
 }
