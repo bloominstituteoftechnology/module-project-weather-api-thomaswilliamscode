@@ -16,6 +16,12 @@ async function moduleProject4() {
 
   // 👉 Tasks 1 - 5 go here
 
+  // Task 1 Hide Container by default
+  const container = document.querySelector('#weatherWidget');
+
+  container.style.display = 'none'
+  
+
   // 👆 WORK WORK ABOVE THIS LINE 👆
 
 }
