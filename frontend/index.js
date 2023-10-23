@@ -75,8 +75,8 @@ async function moduleProject4() {
       axios.get(city)
 				.then((res) => {
 					let { location, current, forecast } = res.data;
-					console.log(location);
-          toggleContainer();
+					breakDown(location, current, forecast);
+					toggleContainer();
 					toggleInfoOff();
 					toggleOption();
 				})
@@ -84,6 +84,145 @@ async function moduleProject4() {
 					console.log(err);
 				});
   }
+
+  function breakDown(locationObj, currentObj, forecastObj) {
+
+	// destructure locationObj
+	let {
+		city, 
+		country
+	} = locationObj;
+
+	// destructure currentObj
+	
+	let {
+		apparent_temperature,
+		humidity,
+		precipitation_probability,
+		temperature_max,
+		temperature_min,
+		weather_description,
+		wind_speed,
+	} = currentObj;
+
+	// destructure forecastObj
+	let {
+		daily
+	} = forecastObj;
+
+	// grab todays div 
+	const today = document.querySelector('#today')
+	
+
+	// todays Div 
+	const todaysDivs = today.querySelector('#apparentTemp');
+
+	const todaysTemp = todaysDivs.lastElementChild
+
+	// set todays temp 
+	todaysTemp.textContent = apparent_temperature
+	
+	// grab todays element
+	const todaysPic = document.querySelector('#todayDescription');
+
+	// find todays pic 
+	const emoji = findEmoji(weather_description)
+
+	// set todays pic
+	todaysPic.textContent = emoji
+
+	// create function for todays stats id
+	// low, high, percipitaion,
+	const percip = precipitation_probability * 100
+	const max = temperature_max
+	const min = temperature_min
+
+
+	const todaysStats = document.querySelector('#todayStats')
+	todaysStats.firstElementChild.textContent = `${min}° / ${max}°`;
+	todaysStats.children[1].textContent = `Precipitation: ${percip}%`
+
+		// humidity, wind
+		todaysStats.children[2].textContent = `Humidity: ${humidity}%`;
+		todaysStats.lastElementChild.textContent = `Wind: ${wind_speed}m/s`;
+	wind_speed
+
+	// grab forecast div
+	const forecast = document.querySelector('#forecast')
+	
+	const day1 = forecast.firstElementChild
+	const day2 = forecast.children[1]
+	const day3 = forecast.lastElementChild
+
+
+	dailyTemps(daily[0], day1);
+	dailyTemps(daily[1], day2);
+	dailyTemps(daily[2], day3);
+
+	// change location info on bottom of screen 
+	
+	const locationDiv = document.querySelector('#location')
+	locationDiv.firstElementChild.textContent = city
+	locationDiv.lastElementChild.textContent = country
+	
+		// create function to deal with the forecast
+		// deal with dates and figure out the day of the week
+		// set pics for each day, low, high and percipitation
+
+  }
+
+  // function to find wheather emoji
+  function findEmoji(string) {
+	for (let description of descriptions) {
+		if (string === description[0]) {
+			return description[1]
+		}
+	}
+  }
+
+  function dailyTemps (obj, parentDiv) {
+
+		let {
+			date,
+			humidity,
+			precipitation_probability,
+			temperature_max,
+			temperature_min,
+			weather_description,
+			wind_speed,
+   } = obj;
+
+		let pic = findEmoji(weather_description)
+		let min = temperature_min
+		let max = temperature_max
+		let currentDate = date
+		let percip = precipitation_probability * 100
+
+
+		// grab pic div 
+		parentDiv.children[1].textContent = pic
+		parentDiv.children[2].textContent = `${min}° / ${max}°`
+		parentDiv.lastElementChild.textContent = `Precipitation: ${percip}%`;
+
+		// function to find day of the week
+		currentDate = findDate(date)
+		parentDiv.firstElementChild.textContent = currentDate
+
+	}
+
+	function findDate(string) {
+		let date = new Date(string)
+		let dateArray = [ 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+
+		let dayOfWeek = dateArray[date.getDay()]
+
+		return dayOfWeek
+	}
+
+	
+
+
+
 
 
 	// 👆 WORK WORK ABOVE THIS LINE 👆
