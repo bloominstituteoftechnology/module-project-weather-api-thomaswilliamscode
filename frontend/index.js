@@ -120,7 +120,7 @@ async function moduleProject4() {
 	const todaysTemp = todaysDivs.lastElementChild
 
 	// set todays temp 
-	todaysTemp.textContent = apparent_temperature
+	todaysTemp.textContent = apparent_temperature + '°';
 	
 	// grab todays element
 	const todaysPic = document.querySelector('#todayDescription');
@@ -139,7 +139,7 @@ async function moduleProject4() {
 
 
 	const todaysStats = document.querySelector('#todayStats')
-	todaysStats.firstElementChild.textContent = `${min}° / ${max}°`;
+	todaysStats.firstElementChild.textContent = `${min}°/${max}°`;
 	todaysStats.children[1].textContent = `Precipitation: ${percip}%`
 
 		// humidity, wind
@@ -201,7 +201,7 @@ async function moduleProject4() {
 
 		// grab pic div 
 		parentDiv.children[1].textContent = pic
-		parentDiv.children[2].textContent = `${min}° / ${max}°`
+		parentDiv.children[2].textContent = `${min}°/${max}°`
 		parentDiv.lastElementChild.textContent = `Precipitation: ${percip}%`;
 
 		// function to find day of the week
@@ -212,7 +212,15 @@ async function moduleProject4() {
 
 	function findDate(string) {
 		let date = new Date(string)
-		let dateArray = [ 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+		let dateArray = [
+			'Monday',
+			'Tuesday',
+			'Wednesday',
+			'Thursday',
+			'Friday',
+			'Saturday',
+			'Sunday',
+		];
 
 		let dayOfWeek = dateArray[date.getDay()]
 
